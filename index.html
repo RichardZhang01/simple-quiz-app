@@ -1,179 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QuizTime</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: hsl(192, 17%, 94%);
-            background-image: url(./images/background.avif);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: hsl(192, 17%, 94%);
+        background-image: url(./images/background.avif);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+      }
 
+      .logo {
+        height: 12rem;
+        max-width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .main-container {
+        background-color: hsl(0, 0%, 100%);
+        border-radius: 15px;
+        padding: 25px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 4px 15px hsla(0, 0%, 0%, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-top: auto;
+        margin-bottom: auto;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .question {
+        font-size: 1.3em;
+        color: #333333;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .option {
+        padding: 12px;
+        border: 2px solid hsl(0, 0%, 87%);
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: hsl(0, 0%, 97%);
+        transition: background-color 0.3s, border-color 0.3s;
+        font-size: 1.1em;
+        text-align: center;
+      }
+
+      .option:hover {
+        background-color: #e0e0e0;
+      }
+
+      .option.selected {
+        border-color: #4caf50;
+        background-color: #e0ffe0;
+      }
+
+      .option.correct {
+        border-color: #4caf50;
+        background-color: #e0ffe0;
+      }
+
+      .option.incorrect {
+        border-color: hsl(4, 90%, 58%);
+        background-color: hsl(0, 100%, 94%);
+      }
+
+      .navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+      }
+
+      button {
+        padding: 12px 25px;
+        background-color: hsl(123, 40%, 49%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+
+      button:disabled {
+        background-color: hsl(0, 0%, 80%);
+        cursor: not-allowed;
+      }
+
+      button:hover:not(:disabled) {
+        background-color: hsl(123, 40%, 45%);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      button:active:not(:disabled) {
+        background-color: hsl(123, 40%, 40%);
+        box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
+        scale: 0.95;
+      }
+
+      .result {
+        display: none;
+        font-size: 1.4em;
+        color: hsl(122, 39%, 49%);
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 600px) {
         .logo {
-            height: 12rem;
-            max-width: 100%;
-            margin-top: 2rem;
-            margin-bottom: 3rem;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+          height: auto;
+          max-width: 75%;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .main-container {
-            background-color: hsl(0, 0%, 100%);
-            border-radius: 15px;
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 4px 15px hsla(0, 0%, 0%, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-top: auto;
-            margin-bottom: auto;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
+          padding: 15px;
+          max-width: 85%;
+          transform: translateY(-30%);
         }
 
         .question {
-            font-size: 1.3em;
-            color: #333333;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+          font-size: 1.1em;
         }
 
         .option {
-            padding: 12px;
-            border: 2px solid hsl(0, 0%, 87%);
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: hsl(0, 0%, 97%);
-            transition: background-color 0.3s, border-color 0.3s;
-            font-size: 1.1em;
-            text-align: center;
+          font-size: 1em;
         }
-
-        .option:hover {
-            background-color: #e0e0e0;
-        }
-
-        .option.selected {
-            border-color: #4CAF50;
-            background-color: #e0ffe0;
-        }
-
-        .option.correct {
-            border-color: #4CAF50;
-            background-color: #e0ffe0;
-        }
-
-        .option.incorrect {
-            border-color: hsl(4, 90%, 58%);
-            background-color: hsl(0, 100%, 94%);
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        button {
-            padding: 12px 25px;
-            background-color: hsl(123, 40%, 49%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        button:disabled {
-            background-color: hsl(0, 0%, 80%);
-            cursor: not-allowed;
-        }
-
-        button:hover:not(:disabled) {
-            background-color: hsl(123, 40%, 45%);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        button:active:not(:disabled) {
-            background-color: hsl(123, 40%, 40%);
-            box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
-            scale: 0.95
-        }
-
-        .result {
-            display: none;
-            font-size: 1.4em;
-            color: hsl(122, 39%, 49%);
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .logo {
-                height: auto;
-                max-width: 75%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .main-container {
-                padding: 15px;
-                max-width: 85%;
-                transform: translateY(-30%);
-            }
-
-            .question {
-                font-size: 1.1em;
-            }
-
-            .option {
-                font-size: 1em;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <img class="logo" src="./images/logo_no_bg_cropped.png" alt="QuizTime Logo">
+  </head>
+  <body>
+    <img
+      class="logo"
+      src="./images/logo_no_bg_cropped.png"
+      alt="QuizTime Logo"
+    />
     <main class="main-container">
-        <div id="quiz">
-            <div id="question-container" class="question">
-                <!-- Question will appear here -->
-            </div>
-            <div id="options-container" class="options">
-                <!-- Options will appear here -->
-            </div>
-            <div class="navigation">
-                <button id="prev-btn" disabled>Previous</button>
-                <button id="next-btn">Next</button>
-            </div>
+      <div id="quiz">
+        <div id="question-container" class="question">
+          <!-- Question will appear here -->
         </div>
-        <div id="result-container" class="result">
-            <!-- Final score will be displayed here -->
+        <div id="options-container" class="options">
+          <!-- Options will appear here -->
         </div>
+        <div class="navigation">
+          <button id="prev-btn" disabled>Previous</button>
+          <button id="next-btn">Next</button>
+        </div>
+      </div>
+      <div id="result-container" class="result">
+        <!-- Final score will be displayed here -->
+      </div>
     </main>
-     <script>
-        // scripts
-     </script>
-</body>
+    <script>
+      // scripts
+    </script>
+  </body>
 </html>
