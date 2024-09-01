@@ -52,6 +52,7 @@ The quiz app uses basic HTML/CSS/JS to generate a 4 question quiz. You can navig
 
 - Vanilla HTML/CSS/JS
 - flexbox
+- Cloudinary for image hosting
 
 ## Author
 
