@@ -37,13 +37,37 @@
         box-shadow: 0 4px 15px hsla(0, 0%, 0%, 0.1);
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: 1rem;
         margin-top: 2rem;
         margin-bottom: 1rem;
       }
 
+      .intro-container,
+      .question-container,
+      .result-container {
+        text-align: center;
+      }
+
+      .intro-container {
+        display: none;
+      }
+
+      .intro-container h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem
+      }
+
+      .intro-container p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .question-container {
+        display: none;
+      }
+
       .question {
-        font-size: 1.3em;
+        font-size: 1.5rem;
         color: hsl(0, 0%, 20%);
         font-weight: bold;
         text-align: center;
@@ -58,17 +82,17 @@
 
       .option {
         padding: 12px;
-        border: 2px solid hsl(0, 0%, 87%);
+        border: 2px solid hsl(200, 100%, 93%);
         border-radius: 8px;
         cursor: pointer;
-        background-color: hsl(0, 0%, 97%);
+        background-color: hsla(200, 50%, 90%, 0.3);
         transition: background-color 0.3s, border-color 0.3s;
-        font-size: 1.1em;
+        font-size: 1.1rem;
         text-align: center;
       }
 
       .option:hover:not(.disabled) {
-        background-color: #e0e0e0;
+        background-color: hsl(202, 100%, 93%);
       }
 
       .option.selected {
@@ -94,7 +118,7 @@
 
       button {
         padding: 12px 25px;
-        background-color: hsl(123, 40%, 49%);
+        background-color: hsl(204, 80%, 49%);
         color: white;
         border: none;
         border-radius: 8px;
@@ -109,36 +133,32 @@
       }
 
       button:hover:not(:disabled) {
-        background-color: hsl(123, 40%, 45%);
+        background-color: hsl(204, 80%, 45%);
         box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
       }
 
       button:active:not(:disabled) {
-        background-color: hsl(123, 40%, 40%);
+        background-color: hsl(204, 80%, 40%);
         box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
         scale: 0.95;
       }
 
-      .result {
+      .result-container {
         display: none;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         color: hsl(122, 39%, 49%);
-        text-align: center;
-        margin-top: 20px;
       }
 
       @media (max-width: 600px) {
         .logo {
           height: auto;
-          max-width: 75%;
-          margin-left: auto;
-          margin-right: auto;
+          max-width: 60%;
         }
 
         .main-container {
           padding: 15px;
           max-width: 85%;
-          margin-top: 1rem;
+          margin-top: 0.5rem;
           margin-bottom: 1rem;
         }
 
@@ -159,7 +179,12 @@
       alt="QuizTime Logo"
     />
     <main class="main-container">
-      <div id="quiz">
+      <div id="intro-container" class="intro-container">
+        <h1>Welcome to  QuizTime!</h1>
+        <p>Test your knowledge with 10 carefully curated, skill-testing questions</p>
+        <button id="start-btn">Start Quiz</button>
+      </div>
+      <div id="quiz-container" class="question-container">
         <div id="question-container" class="question">
           <!-- Question will appear here -->
         </div>
@@ -171,7 +196,7 @@
           <button id="next-btn">Next</button>
         </div>
       </div>
-      <div id="result-container" class="result">
+      <div id="result-container" class="result-container">
         <!-- Final score will be displayed here -->
       </div>
     </main>
@@ -384,7 +409,7 @@
       //buttons
       const prevBtn = document.getElementById("prev-btn");
       const nextBtn = document.getElementById("next-btn");
-      
+
       // entry point
       function loadQuestion() {
         // get and generate question
@@ -412,13 +437,14 @@
         const currentQuestion = quizData[currentQuestionIndex];
         // get selected option and correct option for the current question
         const selectedOption = document.querySelectorAll(".option")[index];
-        const correctOption = document.querySelectorAll(".option")[currentQuestion.correct];
+        const correctOption =
+          document.querySelectorAll(".option")[currentQuestion.correct];
 
         // if user selected correct option, turn option green
         if (index === currentQuestion.correct) {
           selectedOption.classList.add("correct");
           score++;
-        } 
+        }
         // if use selected incorrect option, turn option red, turn correct option green
         else {
           selectedOption.classList.add("incorrect");
@@ -434,7 +460,9 @@
 
       // disable/enable buttons based on which question user is on
       function updateNavigationButtons() {
-        prevBtn.disabled = currentQuestionIndex === 0 || currentQuestionIndex === quizData.length;
+        prevBtn.disabled =
+          currentQuestionIndex === 0 ||
+          currentQuestionIndex === quizData.length;
         nextBtn.disabled = currentQuestionIndex === quizData.length;
       }
 
